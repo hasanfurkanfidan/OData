@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ODataLearning.Api.DataAccess;
 using ODataLearning.Api.Entities;
+using ODataLearning.Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,12 @@ namespace ODataLearning.Api.Controllers
             _context.Products.Remove(product);
             _context.SaveChanges();
             return NoContent();
+        }
+        [HttpPost]
+        public IActionResult Login(ODataActionParameters parameters)
+        {
+            Login login = parameters["UserLogin"] as Login;
+            return Ok(login.Email);
         }
     }
 }

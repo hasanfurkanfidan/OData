@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ODataLearning.Api.Controllers
 {
-  
+
     public class CategoriesController : ODataController
     {
         private readonly AppDbContext _context;
@@ -28,15 +28,39 @@ namespace ODataLearning.Api.Controllers
         [EnableQuery]
 
         [ODataRoute("categories({id})/products({item})")]
-        public IActionResult ProductById([FromODataUri]int id, [FromODataUri] int item)
+        public IActionResult ProductById([FromODataUri] int id, [FromODataUri] int item)
         {
-            return Ok( _context.Products.Where(p=>p.Id==item&&p.CategoryId==id).AsQueryable());
+            return Ok(_context.Products.Where(p => p.Id == item && p.CategoryId == id).AsQueryable());
         }
         [HttpPost]
-        public IActionResult TotalProductPrice([FromODataUri]int key)
+        public IActionResult TotalProductPrice([FromODataUri] int key)
         {
             var productsPrice = _context.Products.Where(p => p.CategoryId == key).Sum(p => p.Price);
+
+
+
             return Ok(productsPrice);
+        }
+        [HttpPost]
+        public IActionResult TotalProductPrice2()
+        {
+            var productsPrice = _context.Products.Sum(p => p.Price);
+            return Ok(productsPrice);
+        }
+        [HttpPost]
+        public IActionResult TotalProductPriceWithParameter(ODataActionParameters parameters)
+        {
+            var categoryId = (int)parameters["categoryId"];
+            var productPrice = _context.Products.Where(p => p.CategoryId == categoryId).Sum(p => p.Price);
+            return Ok(productPrice);
+        }
+        [HttpPost]
+        public IActionResult Total(ODataActionParameters parameters)
+        {
+            int a = (int)parameters["a"];
+            int b = (int)parameters["b"];
+            int c = (int)parameters["c"];
+            return Ok(a+b+c);
         }
     }
 }

@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using ODataLearning.Api.Entities;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNet.OData.Builder;
+using ODataLearning.Api.Models;
 
 namespace ODataLearning.Api
 {
@@ -55,6 +56,15 @@ namespace ODataLearning.Api
             builder.EntitySet<Product>("Products");
 
             builder.EntityType<Category>().Action("TotalProductPrice").Returns<decimal>();
+            builder.EntityType<Category>().Collection.Action("TotalProductPrice2").Returns<decimal>();
+
+            builder.EntityType<Category>().Collection.Action("TotalProductPriceWithParameter").Returns<decimal>().Parameter<int>("categoryId");
+            builder.EntityType<Product>().Collection.Action("Login").Returns<string>().Parameter<Login>("UserLogin");
+            var actionTotal = builder.EntityType<Category>().Collection.Action("Total").Returns<int>();
+            actionTotal.Parameter<int>("a");
+            actionTotal.Parameter<int>("b");
+            actionTotal.Parameter<int>("c");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
