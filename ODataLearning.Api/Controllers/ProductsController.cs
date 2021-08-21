@@ -60,5 +60,17 @@ namespace ODataLearning.Api.Controllers
             Login login = parameters["UserLogin"] as Login;
             return Ok(login.Email);
         }
+        [HttpGet]
+        public IActionResult MultiplyFunction([FromODataUri]int a1, [FromODataUri] int a2, [FromODataUri] int a3)
+        {
+            return Ok(a1 * a2 * a3);
+        }
+        [HttpGet]
+        public IActionResult KdvHesapla(int key,double kdv)
+        {
+            var product = _context.Products.Find(key);
+            var price =(double) product.Price + ((double)product.Price * kdv);
+            return Ok(price);
+        }
     }
 }

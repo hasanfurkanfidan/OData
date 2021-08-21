@@ -62,5 +62,11 @@ namespace ODataLearning.Api.Controllers
             int c = (int)parameters["c"];
             return Ok(a+b+c);
         }
+        [HttpGet]
+        public IActionResult GetCategoryCount()
+        {
+            return Ok(_context.Categories.Count());
+        }
     }
+
 }

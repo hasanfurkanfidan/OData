@@ -55,6 +55,8 @@ namespace ODataLearning.Api
             builder.EntitySet<Category>("Categories");
             builder.EntitySet<Product>("Products");
 
+
+            //Actions
             builder.EntityType<Category>().Action("TotalProductPrice").Returns<decimal>();
             builder.EntityType<Category>().Collection.Action("TotalProductPrice2").Returns<decimal>();
 
@@ -64,6 +66,14 @@ namespace ODataLearning.Api
             actionTotal.Parameter<int>("a");
             actionTotal.Parameter<int>("b");
             actionTotal.Parameter<int>("c");
+            //Functions
+            builder.EntityType<Category>().Collection.Function("GetCategoryCount").Returns<int>();
+            
+            var multiplyFunction = builder.EntityType<Product>().Collection.Function("MultiplyFunction").Returns<int>();
+            multiplyFunction.Parameter<int>("a1");
+            multiplyFunction.Parameter<int>("a2");
+            multiplyFunction.Parameter<int>("a3");
+            builder.EntityType<Product>().Function("KdvHesapla").Returns<double>().Parameter<double>("kdv");
 
             if (env.IsDevelopment())
             {
