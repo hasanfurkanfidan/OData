@@ -1,0 +1,85 @@
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="ODataLearning.Api.Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="Category">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" />
+        <NavigationProperty Name="Products" Type="Collection(ODataLearning.Api.Entities.Product)" />
+      </EntityType>
+      <EntityType Name="Product">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" />
+        <Property Name="Price" Type="Edm.Decimal" Nullable="false" />
+        <Property Name="Stock" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Created" Type="Edm.DateTimeOffset" />
+        <Property Name="CategoryId" Type="Edm.Int32" />
+        <NavigationProperty Name="Category" Type="ODataLearning.Api.Entities.Category">
+          <ReferentialConstraint Property="CategoryId" ReferencedProperty="Id" />
+        </NavigationProperty>
+      </EntityType>
+    </Schema>
+    <Schema Namespace="ODataLearning.Api.Models" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <ComplexType Name="Login">
+        <Property Name="Email" Type="Edm.String" />
+        <Property Name="Password" Type="Edm.String" />
+      </ComplexType>
+    </Schema>
+    <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Action Name="TotalProductPrice" IsBound="true">
+        <Parameter Name="bindingParameter" Type="ODataLearning.Api.Entities.Category" />
+        <ReturnType Type="Edm.Decimal" Nullable="false" />
+      </Action>
+      <Action Name="TotalProductPrice2" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(ODataLearning.Api.Entities.Category)" />
+        <ReturnType Type="Edm.Decimal" Nullable="false" />
+      </Action>
+      <Action Name="TotalProductPriceWithParameter" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(ODataLearning.Api.Entities.Category)" />
+        <Parameter Name="categoryId" Type="Edm.Int32" Nullable="false" />
+        <ReturnType Type="Edm.Decimal" Nullable="false" />
+      </Action>
+      <Action Name="Login" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(ODataLearning.Api.Entities.Product)" />
+        <Parameter Name="UserLogin" Type="ODataLearning.Api.Models.Login" />
+        <ReturnType Type="Edm.String" />
+      </Action>
+      <Action Name="Total" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(ODataLearning.Api.Entities.Category)" />
+        <Parameter Name="a" Type="Edm.Int32" Nullable="false" />
+        <Parameter Name="b" Type="Edm.Int32" Nullable="false" />
+        <Parameter Name="c" Type="Edm.Int32" Nullable="false" />
+        <ReturnType Type="Edm.Int32" Nullable="false" />
+      </Action>
+      <Function Name="GetCategoryCount" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(ODataLearning.Api.Entities.Category)" />
+        <ReturnType Type="Edm.Int32" Nullable="false" />
+      </Function>
+      <Function Name="MultiplyFunction" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(ODataLearning.Api.Entities.Product)" />
+        <Parameter Name="a1" Type="Edm.Int32" Nullable="false" />
+        <Parameter Name="a2" Type="Edm.Int32" Nullable="false" />
+        <Parameter Name="a3" Type="Edm.Int32" Nullable="false" />
+        <ReturnType Type="Edm.Int32" Nullable="false" />
+      </Function>
+      <Function Name="KdvHesapla" IsBound="true">
+        <Parameter Name="bindingParameter" Type="ODataLearning.Api.Entities.Product" />
+        <Parameter Name="kdv" Type="Edm.Double" Nullable="false" />
+        <ReturnType Type="Edm.Double" Nullable="false" />
+      </Function>
+      <EntityContainer Name="Container">
+        <EntitySet Name="Categories" EntityType="ODataLearning.Api.Entities.Category">
+          <NavigationPropertyBinding Path="Products" Target="Products" />
+        </EntitySet>
+        <EntitySet Name="Products" EntityType="ODataLearning.Api.Entities.Product">
+          <NavigationPropertyBinding Path="Category" Target="Categories" />
+        </EntitySet>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
